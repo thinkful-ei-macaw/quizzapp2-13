@@ -6,3 +6,26 @@
   * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
   *
 */
+
+.quiz, .results {
+  display: none;
+}
+
+.selected {
+  color: orange;
+}
+
+.quiz fieldset {
+  border:none;
+}
+
+.quiz form input[type="radio"],
+.quiz form input[type="radio"]+label {
+  display: inline-block;
+  width: auto;
+  margin-top: .35rem;
+}
+
+.quiz, .results, .start-page {
+  text-align: center;
+}
