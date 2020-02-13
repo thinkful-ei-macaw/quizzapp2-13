@@ -1,59 +1,60 @@
 
 /* eslint-disable indent*/
+/*
  * Example store structure
  */
 const store = {
   // 5 or more questions are required
   questions: [
     {
-      question: 'What color is broccoli?',
+      question: 'What is 2 + 2?',
       answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
+        '5',
+        '4',
+        '9',
+        '1'
       ],
-      correctAnswer: 'green'
+      correctAnswer: '4'
     },
     {
-      question: 'What is the current year?',
+      question: 'What is 5 - 3?',
       answers: [
-        '1970',
-        '2015',
-        '2019',
-        '2005'
+        '2',
+        '20',
+        '6',
+        '32'
       ],
-      correctAnswer: '2019'
+      correctAnswer: '2'
     },
     {
-      question: 'What color is broccoli?',
+      question: 'What is 3 x 5?',
       answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
+        '0',
+        '49',
+        '15',
+        '7'
       ],
-      correctAnswer: 'green'
+      correctAnswer: '15'
     },
     {
-      question: 'What color is broccoli?',
+      question: 'What is 4 + 6?',
       answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
+        '10',
+        '30',
+        '2',
+        '24'
       ],
-      correctAnswer: 'green'
+      correctAnswer: '10'
     },
     {
-      question: 'What color is broccoli?',
+      question: 'What is 7 - 3?',
       answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
+        '5',
+        '10',
+        '4',
+        '21'
       ],
-      correctAnswer: 'green'
+      correctAnswer: '4'
     }
   ],
   questionNumber: 0,
