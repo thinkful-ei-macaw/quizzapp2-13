@@ -1,8 +1,7 @@
-
+'use strict';
 /* eslint-disable indent*/
-/*
- * Example store structure
- */
+
+
 const store = {
   // 5 or more questions are required
   questions: [
@@ -61,6 +60,11 @@ const store = {
   score: 0
 };
 
+  // Current question
+  // Question text
+  // User's answer choice(s)
+  // Score? Current Question Number? Quiz Started? Anything else?
+
 /**
  *
  * Your app should include a render() function, that regenerates
@@ -74,7 +78,105 @@ const store = {
  *
  */
 
+function renderQuizApp(){
 
- function renderQuizApp(){
+};
+// Template generators
+function generateAnswerList(answers) {
 
- };
+}
+
+function generateQuestion(question){
+
+}
+
+
+//When play button on intro page is clicked, render questions page
+function renderQuestionsPage(){
+  //find current question id
+  //render page with data from appropriate question
+
+  // Reads STORE, calls generators, then adds HTML to DOM
+  //const currentAnswerList = generateAnswerList(currentAnswerList);
+  //const currentQuestion = generateQuestion(currentQuestion);
+
+
+  //
+}
+
+//handles what happens when the "play" button is clicked
+function handleStartQuiz(){
+  $('#quiz-form').submit(function(event) {
+    event.preventDefault();
+    renderQuestionsPage();
+});
+}
+
+
+
+function handleAnswerSubmit(){
+  $('#quiz-form').submit(function(event) {
+    event.preventDefault();
+
+   
+  //let selected =
+  //const correctAnswer =
+  // if( selected === correctAnswer){
+  //   renderCorrectPage();
+  //update store
+  // }
+  // else if(selected !== correctAnswer){
+  //   renderWrongPage();
+  //update store
+  //update STORE with current score
+});
+}
+
+
+
+
+//render correct answer page when correct answer is selected
+function renderCorrectPage(){
+  //this updates the html
+  $('main').html(' ');
+
+ 
+}
+
+//render wrong answer page when correct answer is selected
+function renderWrongPage(){
+  //this updates the html
+  $('main').html(' ');
+
+}
+
+function handleNextQuestionSubmit(){
+  //if there is another question to answer
+  renderQuestionsPage();
+
+  //if last question was the final question
+  renderFinalResultsPage();
+}
+
+//when last question is submitted render this page
+function renderFinalResultsPage(){
+  //this updates the html
+  $('main').html(' ');
+
+  //give final score
+}
+
+//handles what happens when the try again button is clicked
+function handleTryAgain(){
+  //go back to intro page
+}
+
+function handleQuizApp(){
+  renderQuizApp();
+  handleStartQuiz();
+  handleAnswerSubmit();
+  handleNextQuestionSubmit();
+  handleTryAgain();
+}
+
+ $(handleQuizApp);
