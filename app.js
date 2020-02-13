@@ -1,4 +1,5 @@
-/**
+
+/* eslint-disable indent*/
  * Example store structure
  */
 const store = {
@@ -23,6 +24,36 @@ const store = {
         '2005'
       ],
       correctAnswer: '2019'
+    },
+    {
+      question: 'What color is broccoli?',
+      answers: [
+        'red',
+        'orange',
+        'pink',
+        'green'
+      ],
+      correctAnswer: 'green'
+    },
+    {
+      question: 'What color is broccoli?',
+      answers: [
+        'red',
+        'orange',
+        'pink',
+        'green'
+      ],
+      correctAnswer: 'green'
+    },
+    {
+      question: 'What color is broccoli?',
+      answers: [
+        'red',
+        'orange',
+        'pink',
+        'green'
+      ],
+      correctAnswer: 'green'
     }
   ],
   questionNumber: 0,
@@ -41,3 +72,8 @@ const store = {
  * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
  *
  */
+
+
+ function renderQuizApp(){
+
+ };
