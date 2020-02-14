@@ -78,9 +78,17 @@ const store = {
  *
  */
 
+ //renders sequence of events
+ //renders intro page
 function renderQuizApp(){
+const introPage = `
+<h1 class = 'quiz-questions'>Math Quiz</h1>
+<form id="quiz-form" >
+  <button class = 'start-quiz'>Play</button>
+</form>`;
+$('main').html(introPage);
+}
 
-};
 // Template generators
 function generateAnswerList(answers) {
 
@@ -91,8 +99,25 @@ function generateQuestion(question){
 }
 
 
-//When play button on intro page is clicked, render questions page
-function renderQuestionsPage(){
+//render questions page
+function renderQuestionPage(){
+  
+  const questionPage = `
+  <h1 class = 'quiz-questions'>Question: What is 2 + 2?</h1>
+    <h2>Question: currentQuestionNum out of 5</h2>
+    <h3>Score: ${store.score}</h3>
+
+    <form id="question-form" action="">
+      <input type="radio" id="answer-choice-1" name="answer-choice-1" value="quiz-value">
+      <label for="quiz-value">answers[0] will go here</label><br>
+      <input type="radio" id="answer-choice-2" name="answer-choice-2" value="quiz-value">
+      <label for="quiz-value">answers[1] will go here</label><br>
+      <input type="radio" id="answer-choice-3" name="answer-choice-3" value="quiz-value">
+      <label for="quiz-value">answers[2] will go here</label><br>
+      <input type="radio" id="answer-choice-4" name="answer-choice-4" value="quiz-value">
+      <label for="quiz-value">answers[3] will go here</label><br>
+      <button class ='submit-answer'>Submit Answer</button>`;
+      $('main').html(questionPage);
   //find current question id
   //render page with data from appropriate question
 
@@ -106,19 +131,22 @@ function renderQuestionsPage(){
 
 //handles what happens when the "play" button is clicked
 function handleStartQuiz(){
-  $('#quiz-form').submit(function(event) {
+  $('button.start-quiz').on('click',function(event) {
     event.preventDefault();
-    renderQuestionsPage();
+    renderQuestionPage();
+    
 });
 }
 
 
 
 function handleAnswerSubmit(){
-  $('#quiz-form').submit(function(event) {
+  $('button.submit-answer').on('click',function(event) {
     event.preventDefault();
-
-   
+    console.log('click');
+    renderCorrectPage();
+  
+    
   //let selected =
   //const correctAnswer =
   // if( selected === correctAnswer){
@@ -138,7 +166,21 @@ function handleAnswerSubmit(){
 //render correct answer page when correct answer is selected
 function renderCorrectPage(){
   //this updates the html
-  $('main').html(' ');
+  const correctPage = `   
+    <h1 class = 'quiz-questions'>Wrong!</h1>
+    <h2>Question: 3 out of 5</h2>
+    <h2>Score:</h2>
+    <ul>
+        <li>Answer:</li>
+        <li>Your Answer:</li>
+    </ul>
+    <ul>
+        <li>Right: 2</li>
+        <li>Wrong: 1</li>
+    </ul>
+    <button class="next-question">Continue</button>
+    `;
+  $('main').html(correctPage);
 
  
 }
@@ -146,22 +188,29 @@ function renderCorrectPage(){
 //render wrong answer page when correct answer is selected
 function renderWrongPage(){
   //this updates the html
+  const wrongPage = `
+  `;
   $('main').html(' ');
 
 }
 
 function handleNextQuestionSubmit(){
+  $('button.next-question').submit(function(event) {
+    event.preventDefault();
+  
   //if there is another question to answer
-  renderQuestionsPage();
+  //renderQuestionsPage();
 
   //if last question was the final question
   renderFinalResultsPage();
+});
 }
-
 //when last question is submitted render this page
 function renderFinalResultsPage(){
+ const finalPage = `
+ `
   //this updates the html
-  $('main').html(' ');
+ // $('main').html(' ');
 
   //give final score
 }
