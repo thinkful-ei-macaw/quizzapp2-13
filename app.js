@@ -155,6 +155,17 @@ function renderStart() {
       alert('Please select an answer');
     }
     });
+
+  $('.results input[type=submit]').click(function(e){
+    e.preventDefault();
+
+    $('main .results').attr('hidden', 'hidden');
+    $('main .start').removeAttr('hidden');
+    
+    store.questionNumber = 0;
+    store.score = 0;
+
+  });
 }
 
 function showQuestion() {
@@ -189,9 +200,7 @@ function checkAnswer(guess) {
   let qNum = store.questionNumber;
   let correct = Object.values(storeQ)[qNum].correctAnswer;
   if (correct === guess) {
-    let score = store.score;
-    score++;
-    console.log(score);
+    store.score++;
   }
 
   store.questionNumber++;
@@ -208,8 +217,8 @@ function showSummary() {
   $('main .quiz').attr('hidden', 'hidden');
   $('main .results').removeAttr('hidden');
 
-  let totalQ = Object.values(store.questions.length);
-  let uResults = Object.values(store.questions).length - store.score;
+  let totalQ = Object.values(store.questions).length;
+  let uResults = store.score;
 
   $('.results p').text(`Congrats you scored ${uResults} out of ${totalQ} correct!`);
 }
