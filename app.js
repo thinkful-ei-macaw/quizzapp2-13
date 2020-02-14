@@ -111,7 +111,7 @@ const start = `
   </section>
 
   <section hidden class="results">
-    <h2>Summary Screen</h2>
+    <h2>Your Results</h2>
     <p>Congrats you scored x out of y correct!</p>
     <form>
       <input type="submit" value="Restart Quiz">
@@ -161,15 +161,15 @@ function showQuestion() {
   let storeQ = store.questions;
   let qNum = store.questionNumber;
   let theQ = storeQ[qNum];
-  $('.quiz legend[class="question"]').html(theQ.question);
+  $('.quiz legend[class="question"]').html(Object.keys(theQ.question[store.questionNumber]));
   $('.quiz fieldset').html('');
 
-  let numL = Object.values(storeQ)[qNum];
+  let numL = Object.values(storeQ)[store.questionNumber];
   let numL2 = numL.answers;
   for(let i=0; i < numL2.length; i++) {
     if (i === 0) {
       $('.quiz fieldset').html($('.quiz fieldset').html() + `
-    <legend class="question">Question: ${qNum} of ${Object.values(storeQ).length}<br>${theQ.question}</legend>
+    <legend class="question">Question: ${qNum+1} of ${Object.values(storeQ).length}<br>${theQ.question}</legend>
     <input type="radio" name="choice" id="${i}" value="${numL2[i]}">
     <label for="choice-${i}">${numL2[i]}</label>
     <br>
@@ -189,8 +189,29 @@ function checkAnswer(guess) {
   let qNum = store.questionNumber;
   let correct = Object.values(storeQ)[qNum].correctAnswer;
   if (correct === guess) {
-    console.log('working');
+    let score = store.score;
+    score++;
+    console.log(score);
   }
+
+  store.questionNumber++;
+  console.log(store.questionNumber);
+
+  if(store.questionNumber > storeQ.length) {
+    showSummary();
+  } else {
+    showQuestion();
+  }
+}
+
+function showSummary() {
+  $('.quiz').addAttr('hidden');
+  $('results').removeAttr('hidden');
+
+  let totalQ = Object.values(store.questions.length);
+  let uResults = Object.values(storeQ).length - store.score;
+
+  $('results p').text(`<p>Congrats you scored ${uResults} out of ${totalQ} correct!</p>`);
 }
 
 //handles important functions
