@@ -101,12 +101,12 @@ function generateQuestion(question){
 
 //render questions page
 function renderQuestionPage(){
-  
+  store.questionNumber++;
+  let questionNumber = store.questionNumber;
   const questionPage = `
-  <h1 class = 'quiz-questions'>Question: What is 2 + 2?</h1>
-    <h2>Question: currentQuestionNum out of 5</h2>
+    <h1 class = 'quiz-questions'>Question:  ?</h1>
+    <h2>Question: currentQuestion ${store.questionNumber} out of 5</h2>
     <h3>Score: ${store.score}</h3>
-
     <form id="question-form" action="">
       <input type="radio" id="answer-choice-1" name="answer-choice-1" value="quiz-value">
       <label for="quiz-value">answers[0] will go here</label><br>
@@ -116,8 +116,10 @@ function renderQuestionPage(){
       <label for="quiz-value">answers[2] will go here</label><br>
       <input type="radio" id="answer-choice-4" name="answer-choice-4" value="quiz-value">
       <label for="quiz-value">answers[3] will go here</label><br>
-      <button class ='submit-answer'>Submit Answer</button>`;
-      $('main').html(questionPage);
+      <button class ='submit-answer'>Submit Answer</button>
+      </form>`;
+
+  $('main').html(generateQuestionPage());
   //find current question id
   //render page with data from appropriate question
 
@@ -145,12 +147,13 @@ function handleAnswerSubmit(){
     event.preventDefault();
     console.log('click');
     renderCorrectPage();
-  
+    
     
   //let selected =
   //const correctAnswer =
   // if( selected === correctAnswer){
-  //   renderCorrectPage();
+  //   store.score++;
+  //renderCorrectPage();
   //update store
   // }
   // else if(selected !== correctAnswer){
@@ -169,7 +172,7 @@ function renderCorrectPage(){
   const correctPage = `   
     <h1 class = 'quiz-questions'>Wrong!</h1>
     <h2>Question: 3 out of 5</h2>
-    <h2>Score:</h2>
+    <h2>Score: ${store.score}</h2>
     <ul>
         <li>Answer:</li>
         <li>Your Answer:</li>
