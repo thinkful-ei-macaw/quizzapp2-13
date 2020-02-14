@@ -102,7 +102,7 @@ function generateQuestion(question){
 //render questions page
 function renderQuestionPage(){
   store.questionNumber++;
-  let questionNumber = store.questionNumber;
+  
   const questionPage = `
     <h1 class = 'quiz-questions'>Question:  ?</h1>
     <h2>Question: currentQuestion ${store.questionNumber} out of 5</h2>

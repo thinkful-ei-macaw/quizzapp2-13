@@ -57,7 +57,8 @@ const store = {
     }
   ],
   questionNumber: 0,
-  score: 0
+  score: 0,
+  quizStarted: false
 };
 
   // Current question
@@ -82,64 +83,117 @@ const store = {
 // Template generators
 function generateStartPage(){
 
+
+  return `
+    <h1 class = 'quiz-questions'>Math Quiz</h1>
+    <form id="quiz-form" >
+      <button id='start-quiz' type="submit">Play</button>
+    </form>`;
+
+    
 }
 
 
-
-
-
-function generateAnswersandScore(answers) {
-
-}
 
 
 function generateQuestionPage(){
- 
-  return `new html for this view`
-  //find current question id
-  //render page with data from appropriate question
+  let allQuestions = store.questions;
+  let currentQuestionNumber = store.questionNumber;
+  let currentQuestionData = allQuestions[currentQuestionNumber];
+  
+  let currentQuestion = currentQuestionData.question;
+  
+  let answerArr = Object.values(allQuestions)[store.questionNumber];
+  let answerChoices = answerArr.answers;
 
-  // Reads STORE, calls generators, then adds HTML to DOM
-  //const currentAnswerList = generateAnswerList(currentAnswerList);
-  //const currentQuestion = generateQuestion(currentQuestion);
+  return `<h1 class = 'quiz-questions'>Question: ${currentQuestion}?</h1>
+  <h2>Question ${currentQuestionNumber + 1} out of 5</h2>
+  <h3>Score: ${store.score}</h3>
+  <form id="question-form" action="">
+    <input type="radio" id="answer-choice-1" name="answer-choice" value="${answerChoices[0]}">
+    <label for="quiz-value">${answerChoices[0]}</label>
+    <input type="radio" id="answer-choice-2" name="answer-choice" value="${answerChoices[1]}">
+    <label for="quiz-value">${answerChoices[1]}</label>
+    <input type="radio" id="answer-choice-3" name="answer-choice" value="${answerChoices[2]}">
+    <label for="quiz-value">${answerChoices[2]}</label>
+    <input type="radio" id="answer-choice-4" name="answer-choice" value="${answerChoices[3]}">
+    <label for="quiz-value">${answerChoices[3]}</label>
+    <button id='submit-answer'>Submit Answer</button>
+    </form>`;
 
  
 }
 
   //
-
+//checks if answer is right or wrong
+function generateResults(){
+  let selected = $('input[type=radio]:checked', '#question-form').val();
+  let storeQ = store.questions;
+  let currentQuestionNumber = store.questionNumber;
+  let correct = Object.values(storeQ)[currentQuestionNumber].correctAnswer;
+  let correctAnswer = Object.values(store.questions)[store.questionNumber].answers[store.questionNumber];
+  console.log(correctAnswer);
+  
+  if (!currentQuestionNumber > store.questions.length){
+    return generateFinalPage();
+  }else if (correctAnswer === selected && currentQuestionNumber < store.questions.length) {
+    store.score++;
+    return generateCorrectPage();
+  }else if (correct !== selected && currentQuestionNumber < store.questions.length) {
+    return generateWrongPage();
+  }
+}
 //HTML and data for correct answer page when correct answer is selected
 function generateCorrectPage(){
-  //this updates the html
-  return `new html for this view`
-
- 
+  return `
+    <h1>Correct!</h1>
+    <h2>Your current score is: ${store.score} out of ${Object.values(store.questions).length}
+    </h2>
+    <button id='next-question' type="submit">Continue</button>`;
 }
 
-//HTML and data for wrong answer page when correct answer is selected
 function generateWrongPage(){
-  //this updates the html
-  return `new html for this view`
+  let correctAnswer = Object.values(store.questions)[store.questionNumber].answers[store.questionNumber];
+  return `
+    <h1>Sorry, you are wrong!</h1>
+    <li>Correct Answer: ${correctAnswer}</li>
+    <button id='next-question' type="submit">Continue</button>`;
 
 }
 
 function generateFinalPage(){
-  return `new html for this view`
+  return ` <h1 class = 'results'>Congrats you scored ${store.score} out of ${Object.values(store.questions).length} correct!</h1>
+  <button id='try-again' type="submit">Continue</button>`;
 
 }
 
-/*************** RENDER FUNCTION ***********/
+/*************** RENDER FUNCTIONS ***********/
 
-function render(){
+function renderStartPage(){
+  $('main').html(generateStartPage());
+}
 
+function renderQuestionPage(){
+  $('main').html(generateQuestionPage());
+}
+
+function renderResults(){
+  $('main').html(generateResults());
+}
+
+function renderFinalPage(){
+  $('main').html(generateFinalPage());
 }
 
 //  ************* EVENT HANDLERS ***************
 
 //handles what happens when the "play" button is clicked
 function handleStartQuiz(){
-  $('body').on('click', '#restart', () => {
-    // your code here
+  $('body').on('click', '#start-quiz', (e) => {
+    e.preventDefault();
+    //store.questionNumber++;
+    store.quizStarted = true;
+    renderQuestionPage();
     // this is event delegation
 });
 
@@ -148,30 +202,27 @@ function handleStartQuiz(){
 
 
 function handleAnswerSubmit(){
-  $('body').on('click', '#restart', () => {
-    // your code here
-    // this is event delegation
-});
+  $('body').on('click', '#submit-answer', (e) => {
+    e.preventDefault();
+    let selected = $('input[type=radio]:checked', '#question-form').val();
 
-   
-  //let selected =
-  //const correctAnswer =
-  // if( selected === correctAnswer){
-  //   renderCorrectPage();
-  //update store
-  // }
-  // else if(selected !== correctAnswer){
-  //   renderWrongPage();
-  //update store
-  //update STORE with current score
+    if(selected) {  
+    //store.questionNumber++;
+    renderResults();
+  } else {
+      alert('Please select an answer');
+    }
+  });
+
+  
 }
 
 
-
 function handleNextQuestionSubmit(){
-  $('body').on('click', '#restart', () => {
-    // your code here
-    // this is event delegation
+  $('body').on('click', '#next-question', (e) => {
+    e.preventDefault();
+    store.questionNumber++;
+    renderQuestionPage();
 });
 
   
@@ -179,16 +230,24 @@ function handleNextQuestionSubmit(){
 
 //handles what happens when the try again button is clicked
 function handleTryAgain(){
-  $('body').on('click', '#restart', () => {
+  $('body').on('click', '#try-again', (e) => {
+    e.preventDefault();
     // your code here
     // this is event delegation
+    store.score = 0;
+    store.questionNumber = 0;
+    store.quizStarted = false;
+    renderStartPage();
 });
 }
 
 
 
 function handleQuizApp(){
-  render();
+  renderStartPage();
+  renderQuestionPage();
+  renderResults();
+  renderFinalPage();
   handleStartQuiz();
   handleAnswerSubmit();
   handleNextQuestionSubmit();
