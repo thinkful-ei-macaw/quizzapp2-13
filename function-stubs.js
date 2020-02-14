@@ -97,17 +97,18 @@ function generateStartPage(){
 
 
 function generateQuestionPage(){
+  
   let allQuestions = store.questions;
   let currentQuestionNumber = store.questionNumber;
   let currentQuestionData = allQuestions[currentQuestionNumber];
-  
+  console.log(currentQuestionData);
   let currentQuestion = currentQuestionData.question;
   
   let answerArr = Object.values(allQuestions)[store.questionNumber];
   let answerChoices = answerArr.answers;
 
   return `<h1 class = 'quiz-questions'>Question: ${currentQuestion}?</h1>
-  <h2>Question ${currentQuestionNumber + 1} out of 5</h2>
+  <h2>Question ${currentQuestionNumber +1} out of 5</h2>
   <h3>Score: ${store.score}</h3>
   <form id="question-form" action="">
     <input type="radio" id="answer-choice-1" name="answer-choice" value="${answerChoices[0]}">
@@ -127,16 +128,16 @@ function generateQuestionPage(){
   //
 //checks if answer is right or wrong
 function generateResults(){
+
   let selected = $('input[type=radio]:checked', '#question-form').val();
-  let storeQ = store.questions;
+  let allQuestions = store.questions;
   let currentQuestionNumber = store.questionNumber;
-  let correct = Object.values(storeQ)[currentQuestionNumber].correctAnswer;
-  let correctAnswer = Object.values(store.questions)[store.questionNumber].answers[store.questionNumber];
-  console.log(correctAnswer);
+  let correct = Object.values(allQuestions)[currentQuestionNumber].correctAnswer;
+  console.log(correct);
   
   if (!currentQuestionNumber > store.questions.length){
     return generateFinalPage();
-  }else if (correctAnswer === selected && currentQuestionNumber < store.questions.length) {
+  }else if (correct === selected && currentQuestionNumber < store.questions.length) {
     store.score++;
     return generateCorrectPage();
   }else if (correct !== selected && currentQuestionNumber < store.questions.length) {
@@ -191,7 +192,7 @@ function renderFinalPage(){
 function handleStartQuiz(){
   $('body').on('click', '#start-quiz', (e) => {
     e.preventDefault();
-    //store.questionNumber++;
+    // store.questionNumber++;
     store.quizStarted = true;
     renderQuestionPage();
     // this is event delegation
@@ -205,7 +206,7 @@ function handleAnswerSubmit(){
   $('body').on('click', '#submit-answer', (e) => {
     e.preventDefault();
     let selected = $('input[type=radio]:checked', '#question-form').val();
-
+    
     if(selected) {  
     //store.questionNumber++;
     renderResults();
@@ -245,9 +246,9 @@ function handleTryAgain(){
 
 function handleQuizApp(){
   renderStartPage();
-  renderQuestionPage();
-  renderResults();
-  renderFinalPage();
+  // renderQuestionPage();
+  // renderResults();
+  // renderFinalPage();
   handleStartQuiz();
   handleAnswerSubmit();
   handleNextQuestionSubmit();
