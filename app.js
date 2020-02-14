@@ -214,6 +214,8 @@ function showSummary() {
   $('results p').text(`<p>Congrats you scored ${uResults} out of ${totalQ} correct!</p>`);
 }
 
+
+
 //handles important functions
 function handleQuiz(){
   renderStart();
