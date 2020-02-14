@@ -4,9 +4,6 @@
 /*
  * Example store structure
  */
-let score = 0;
-let currentQuestion = 0;
-
 const store = {
   // 5 or more questions are required
   questions: [
@@ -78,57 +75,64 @@ const store = {
  *
  */
 
+ //loads start page
+const start = `
+ <section class="start">
+   <h1>Math Quiz</h1>
+   <h2>Are you smarter than a 1st grader?</h2>
 
-function generateStart() {
-  return `
-    <section class="start">
-      <h1>Math Quiz</h1>
-      <h2>Are you smarter than a 1st grader?</h2>
+   <form id="start-button">
+     <input type="submit" value="Submit">
+   </form>
+ </section>`;
 
-      <form>
-        <input type="submit" value="Submit">
-      </form>
-    </section>`;
-};
+ //loads results page
+const result = `
+<section class="results">
+  <h2>Summary Screen</h2>
+  <p>Congrats you scored x out of y correct!</p>
+  <form>
+    <input type="submit" value="Restart Quiz">
+  </form>
+</section>   
+`;
 
-function generateQuestion(item) {
-  return `
-  <section class="quiz">
+//loads quiz
+const quiz = `
+<section class="quiz">
       <form>
         <fieldset>
           <br>
         </fieldset>
-      </form>`;
-};
-
-function generateResult() {
-  return `
-    <section class="results">
-      <h2>Summary Screen</h2>
-      <p>Congrats you scored x out of y correct!</p>
-      <form>
-        <input type="submit" value="Restart Quiz">
       </form>
-    </section>   
+  </section>
   `;
-};
 
-
-function showResults() {
-
-};
-
-function renderPage() {
-  const page = generateStart();
+function run() {
+  const page = start;
   $('main').html(page);
-};
 
-function handleApp() {
-  renderPage();
-  startQuiz();
-  showQuestion();
-  checkAnswer();
-  showResults();
-};
+  $('.start .start-button').click(function(e){
+    e.preventDefault();
+    $('.start').hide();
+    $('.quiz').show();
+    showQuestion();
+  })
+}
 
-$(handleApp);
+function showQuestion() {
+  let theQ = store.question[questionNumber];
+  $('.quiz h2').text(theQ.question);
+  $('.quiz ul').html('');
+  for(let i=0; i < theQ.answers.length; i++){
+    $('.quiz ul').html
+  }
+
+}
+
+//handles important functions
+function handleQuiz(){
+
+}
+
+$(handleQuiz);
