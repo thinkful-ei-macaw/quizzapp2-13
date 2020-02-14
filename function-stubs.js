@@ -135,9 +135,8 @@ function generateResults(){
   let correct = Object.values(allQuestions)[currentQuestionNumber].correctAnswer;
   console.log(correct);
   
-  if (!currentQuestionNumber > store.questions.length){
-    return generateFinalPage();
-  }else if (correct === selected && currentQuestionNumber < store.questions.length) {
+  
+   if (correct === selected && currentQuestionNumber < store.questions.length) {
     store.score++;
     return generateCorrectPage();
   }else if (correct !== selected && currentQuestionNumber < store.questions.length) {
@@ -208,7 +207,7 @@ function handleAnswerSubmit(){
     let selected = $('input[type=radio]:checked', '#question-form').val();
     
     if(selected) {  
-    //store.questionNumber++;
+    
     renderResults();
   } else {
       alert('Please select an answer');
@@ -223,7 +222,10 @@ function handleNextQuestionSubmit(){
   $('body').on('click', '#next-question', (e) => {
     e.preventDefault();
     store.questionNumber++;
-    renderQuestionPage();
+
+    if (store.questionNumber === store.questions.length){
+      return renderFinalPage();
+    }else (renderQuestionPage());
 });
 
   
