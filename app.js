@@ -110,6 +110,14 @@ const start = `
     </form>
   </section>
 
+  <section hidden class="correct">
+    <h2>Wrong</h2>
+    <p>Congrats you scored x out of y correct!</p>
+    <form>
+      <input type="submit" value="Continue">
+    </form>
+  </section>
+
   <section hidden class="results">
     <h2>Your Results</h2>
     <p>Congrats you scored x out of y correct!</p>
@@ -118,21 +126,18 @@ const start = `
     </form>
   </section>
   `;
-
-//renders Questions
-function renderQuestions(){
-  console.log('run');
-}
-
+/*
 function renderFirst(){
   $('main').html(start);
 }
-
+*/
 //runs entire scheme
 function renderStart() {
   //run start
-  renderFirst();
+  $('main').html(start);
+}
 
+function handleStartPage() {
   $('main #start-button').click(function(e){
     e.preventDefault();
 
@@ -141,8 +146,9 @@ function renderStart() {
 
     showQuestion();
   });
+}
 
-
+function handleQuizPage() {
   $('.quiz input[type=submit]').click(function(e){
     e.preventDefault();
     
@@ -155,7 +161,9 @@ function renderStart() {
       alert('Please select an answer');
     }
     });
+}
 
+function handleResultPage() {
   $('.results input[type=submit]').click(function(e){
     e.preventDefault();
 
@@ -195,12 +203,52 @@ function showQuestion() {
   }
 }
 
+function userCorrect() {
+  $('main .quiz').attr('hidden', 'hidden');
+  $('main .correct').removeAttr('hidden');
+  $('.correct h2').text(`You're Correct! Question: ${store.questionNumber+1} of ${Object.values(store.questions).length}`);
+  
+  let totalQ = Object.values(store.questions).length;
+  let uResults = store.score;
+
+  $('.correct p').text(`Congrats you scored ${uResults} out of ${totalQ} correct!`);
+  
+  questionContinue();
+};
+
+function userWrong() {
+  $('main .quiz').attr('hidden', 'hidden');
+  $('main .correct').removeAttr('hidden');
+  $('.correct h2').text(`You're Wrong! Question: ${store.questionNumber+1} of ${Object.values(store.questions).length}`);
+  
+  let totalQ = Object.values(store.questions).length;
+  let uResults = store.score;
+
+  $('.correct p').text(`Congrats you scored ${uResults} out of ${totalQ} correct!`);
+  
+  questionContinue();
+};
+
+function questionContinue() {
+  $('.correct input[type=submit]').click(function(e){
+    e.preventDefault();
+
+    $('main .correct').attr('hidden', 'hidden');
+    $('main .quiz').removeAttr('hidden');
+
+    $('main').html(showQuestion());
+  });
+}
+
 function checkAnswer(guess) {
   let storeQ = store.questions;
   let qNum = store.questionNumber;
   let correct = Object.values(storeQ)[qNum].correctAnswer;
   if (correct === guess) {
     store.score++;
+    userCorrect();
+  } else {
+    userWrong();
   }
 
   store.questionNumber++;
@@ -215,6 +263,7 @@ function checkAnswer(guess) {
 
 function showSummary() {
   $('main .quiz').attr('hidden', 'hidden');
+  $('main .correct').attr('hidden', 'hidden');
   $('main .results').removeAttr('hidden');
 
   let totalQ = Object.values(store.questions).length;
@@ -228,6 +277,9 @@ function showSummary() {
 //handles important functions
 function handleQuiz(){
   renderStart();
+  handleStartPage();
+  handleQuizPage();
+  handleResultPage()
 }
 
 $(handleQuiz);
