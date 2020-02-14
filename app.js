@@ -197,7 +197,7 @@ function checkAnswer(guess) {
   store.questionNumber++;
   console.log(store.questionNumber);
 
-  if(store.questionNumber > storeQ.length) {
+  if(store.questionNumber >= storeQ.length) {
     showSummary();
   } else {
     showQuestion();
@@ -205,13 +205,13 @@ function checkAnswer(guess) {
 }
 
 function showSummary() {
-  $('.quiz').addAttr('hidden');
-  $('results').removeAttr('hidden');
+  $('main .quiz').attr('hidden', 'hidden');
+  $('main .results').removeAttr('hidden');
 
   let totalQ = Object.values(store.questions.length);
-  let uResults = Object.values(storeQ).length - store.score;
+  let uResults = Object.values(store.questions).length - store.score;
 
-  $('results p').text(`<p>Congrats you scored ${uResults} out of ${totalQ} correct!</p>`);
+  $('.results p').text(`Congrats you scored ${uResults} out of ${totalQ} correct!`);
 }
 
 
