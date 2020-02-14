@@ -106,7 +106,7 @@ const start = `
         <label for="choice-5">choice</label>
         <br>
       </fieldset>
-      <button type="Submit">Submit</button>
+      <input type="submit" value="Submit">
     </form>
   </section>
 
@@ -118,41 +118,6 @@ const start = `
     </form>
   </section>
   `;
-
-
-function generateLegend() {
-  console.log('cool');
-}
-
-function generateChoice() {
-  console.log('rad');
-}
-
-
-function generatePageElement(item){
-
-  const legend = generateLegend();
-  const choice = generateChoice();
-
-  return `
-  <section class="quiz">
-        <form>
-          <fieldset>
-            <legend>${legend}</legend>
-            <input type="radio" value="${choice}">
-            <br>
-          </fieldset>
-        </form>
-  </section>
-    `;
-}
-
-
-function generatePageString(questionAmount) {
-  const pages = store.questions.map((page) => generatePageElement(page));
-
-  return pages.join("");
-}
 
 //renders Questions
 function renderQuestions(){
@@ -175,9 +140,21 @@ function renderStart() {
     $('main .quiz').removeAttr('hidden');
 
     showQuestion();
-
-    $('.quiz ul').on()
   });
+
+
+  $('.quiz input[type=submit]').click(function(e){
+    e.preventDefault();
+    
+    let selected = $('input[name=choice]:checked', '.quiz form').val();
+
+    if(selected) {
+      let guess = selected;
+      checkAnswer(guess);
+    } else {
+      alert('Please select an answer');
+    }
+    });
 }
 
 function showQuestion() {
@@ -193,17 +170,26 @@ function showQuestion() {
     if (i === 0) {
       $('.quiz fieldset').html($('.quiz fieldset').html() + `
     <legend class="question">Question: ${qNum} of ${Object.values(storeQ).length}<br>${theQ.question}</legend>
-    <input type="radio" name="choice" id="choice-${i}" value="${numL2[i]}">
+    <input type="radio" name="choice" id="${i}" value="${numL2[i]}">
     <label for="choice-${i}">${numL2[i]}</label>
     <br>
     `);
     } else {
     $('.quiz fieldset').html($('.quiz fieldset').html() + `
-    <input type="radio" name="choice" id="choice-${i}" value="${numL2[i]}">
+    <input type="radio" name="choice" id="${i}" value="${numL2[i]}">
     <label for="choice-${i}">${numL2[i]}</label>
     <br>
   `)};
 
+  }
+}
+
+function checkAnswer(guess) {
+  let storeQ = store.questions;
+  let qNum = store.questionNumber;
+  let correct = Object.values(storeQ)[qNum].correctAnswer;
+  if (correct === guess) {
+    console.log('working');
   }
 }
 
