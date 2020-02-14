@@ -77,38 +77,58 @@ const store = {
  * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
  *
  */
-$(document).ready(function(){
-  $('.start-page a').click(function(e){
-    e.preventDefault();
-    $('.start-page').hide();
-    $('.quiz').show();
-  })
-});
 
 
-function startQuiz() {
-  console.log(`\`startQuiz ran\``);
-}
+function generateStart() {
+  return `
+    <section class="start">
+      <h1>Math Quiz</h1>
+      <h2>Are you smarter than a 1st grader?</h2>
 
-function showQuestion() {
- 
+      <form>
+        <input type="submit" value="Submit">
+      </form>
+    </section>`;
+};
 
-}
+function generateQuestion(item) {
+  return `
+  <section class="quiz">
+      <form>
+        <fieldset>
+          <br>
+        </fieldset>
+      </form>`;
+};
 
-function checkAnswer() {
-
-}
+function generateResult() {
+  return `
+    <section class="results">
+      <h2>Summary Screen</h2>
+      <p>Congrats you scored x out of y correct!</p>
+      <form>
+        <input type="submit" value="Restart Quiz">
+      </form>
+    </section>   
+  `;
+};
 
 
 function showResults() {
 
-}
+};
 
-function renderApp() {
+function renderPage() {
+  const page = generateStart();
+  $('main').html(page);
+};
+
+function handleApp() {
+  renderPage();
   startQuiz();
   showQuestion();
   checkAnswer();
   showResults();
-}
+};
 
-$(renderApp);
+$(handleApp);
