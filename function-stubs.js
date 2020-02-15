@@ -93,33 +93,42 @@ function generateStartPage(){
     
 }
 
+function generateChoices() {
+  //for loop that is going to return all of the choices in a input/label
+  const answerChoices = Object.values(store.questions)[store.questionNumber].answers; 
 
+  return store.questions[store.questionNumber].answers.map((answer, idx) => {
+      return `
+        <input type="radio" id="answer-choice-${idx}" name="answer-choice" value="${answerChoices[idx]}">
+        <label for="quiz-value">${answerChoices[idx]}</label>
+      `;
+  }).join('')
+
+  //using a map
+
+  //returns labels and inputs
+}
 
 
 function generateQuestionPage(){
   
-  let allQuestions = store.questions;
-  let currentQuestionNumber = store.questionNumber;
-  let currentQuestionData = allQuestions[currentQuestionNumber];
+  const allQuestions = store.questions;
+  const currentQuestionNumber = store.questionNumber;
+  const currentQuestionData = allQuestions[currentQuestionNumber];
   console.log(currentQuestionData);
-  let currentQuestion = currentQuestionData.question;
+  const currentQuestion = currentQuestionData.question;
   
-  let answerArr = Object.values(allQuestions)[store.questionNumber];
-  let answerChoices = answerArr.answers;
+  const answerArr = Object.values(allQuestions)[store.questionNumber];
+  const answerChoices = answerArr.answers;
+
+  const choicesHTML = generateChoices();
 
   return `<h1 class = 'quiz-questions'>Question ${currentQuestionNumber +1} out of 5</h1>
   <h3>Score: ${store.score}</h3>
   <form id="question-form" action="">
     <fieldset>
       <legend>${currentQuestion}?</legend>
-      <input type="radio" id="answer-choice-1" name="answer-choice" value="${answerChoices[0]}">
-      <label for="quiz-value">${answerChoices[0]}</label>
-      <input type="radio" id="answer-choice-2" name="answer-choice" value="${answerChoices[1]}">
-      <label for="quiz-value">${answerChoices[1]}</label>
-      <input type="radio" id="answer-choice-3" name="answer-choice" value="${answerChoices[2]}">
-      <label for="quiz-value">${answerChoices[2]}</label>
-      <input type="radio" id="answer-choice-4" name="answer-choice" value="${answerChoices[3]}">
-      <label for="quiz-value">${answerChoices[3]}</label>
+      ${choicesHTML}
     </fieldset>
     <button id='submit-answer'>Submit Answer</button>
   </form>`;
