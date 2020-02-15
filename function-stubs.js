@@ -51,7 +51,7 @@ const store = {
         '5',
         '10',
         '4',
-        '21'
+        '32'
       ],
       correctAnswer: '4'
     }
@@ -93,34 +93,45 @@ function generateStartPage(){
     
 }
 
+function generateChoices() {
+  //for loop that is going to return all of the choices in a input/label
+  const answerChoices = Object.values(store.questions)[store.questionNumber].answers; 
 
+  return store.questions[store.questionNumber].answers.map((answer, idx) => {
+      return `
+        <input type="radio" id="answer-choice-${idx}" name="answer-choice" value="${answerChoices[idx]}">
+        <label for="quiz-value">${answerChoices[idx]}</label>
+      `;
+  }).join('')
+
+  //using a map
+
+  //returns labels and inputs
+}
 
 
 function generateQuestionPage(){
   
-  let allQuestions = store.questions;
-  let currentQuestionNumber = store.questionNumber;
-  let currentQuestionData = allQuestions[currentQuestionNumber];
+  const allQuestions = store.questions;
+  const currentQuestionNumber = store.questionNumber;
+  const currentQuestionData = allQuestions[currentQuestionNumber];
   console.log(currentQuestionData);
-  let currentQuestion = currentQuestionData.question;
+  const currentQuestion = currentQuestionData.question;
   
-  let answerArr = Object.values(allQuestions)[store.questionNumber];
-  let answerChoices = answerArr.answers;
+  const answerArr = Object.values(allQuestions)[store.questionNumber];
+  const answerChoices = answerArr.answers;
 
-  return `<h1 class = 'quiz-questions'>Question: ${currentQuestion}?</h1>
-  <h2>Question ${currentQuestionNumber +1} out of 5</h2>
+  const choicesHTML = generateChoices();
+
+  return `<h1 class = 'quiz-questions'>Question ${currentQuestionNumber +1} out of 5</h1>
   <h3>Score: ${store.score}</h3>
   <form id="question-form" action="">
-    <input type="radio" id="answer-choice-1" name="answer-choice" value="${answerChoices[0]}">
-    <label for="quiz-value">${answerChoices[0]}</label>
-    <input type="radio" id="answer-choice-2" name="answer-choice" value="${answerChoices[1]}">
-    <label for="quiz-value">${answerChoices[1]}</label>
-    <input type="radio" id="answer-choice-3" name="answer-choice" value="${answerChoices[2]}">
-    <label for="quiz-value">${answerChoices[2]}</label>
-    <input type="radio" id="answer-choice-4" name="answer-choice" value="${answerChoices[3]}">
-    <label for="quiz-value">${answerChoices[3]}</label>
+    <fieldset>
+      <legend>${currentQuestion}?</legend>
+      ${choicesHTML}
+    </fieldset>
     <button id='submit-answer'>Submit Answer</button>
-    </form>`;
+  </form>`;
 
  
 }
@@ -133,7 +144,6 @@ function generateResults(){
   let allQuestions = store.questions;
   let currentQuestionNumber = store.questionNumber;
   let correct = Object.values(allQuestions)[currentQuestionNumber].correctAnswer;
-  console.log(correct);
   
   
    if (correct === selected && currentQuestionNumber < store.questions.length) {
@@ -145,18 +155,24 @@ function generateResults(){
 }
 //HTML and data for correct answer page when correct answer is selected
 function generateCorrectPage(){
+  let correctAnswer = Object.values(store.questions)[store.questionNumber].correctAnswer;
+  let selected = $('input[type=radio]:checked', '#question-form').val();
   return `
     <h1>Correct!</h1>
+    <h2>Correct Answer: ${correctAnswer}</h2>
+    <h2>Your Answer: ${selected}</h2>
     <h2>Your current score is: ${store.score} out of ${Object.values(store.questions).length}
     </h2>
     <button id='next-question' type="submit">Continue</button>`;
 }
 
 function generateWrongPage(){
-  let correctAnswer = Object.values(store.questions)[store.questionNumber].answers[store.questionNumber];
+  let correctAnswer = Object.values(store.questions)[store.questionNumber].correctAnswer;
+  let selected = $('input[type=radio]:checked', '#question-form').val();
   return `
     <h1>Sorry, you are wrong!</h1>
-    <li>Correct Answer: ${correctAnswer}</li>
+    <h2>Correct Answer: ${correctAnswer}</h2>
+    <h2>Your Answer: ${selected}</h2>
     <button id='next-question' type="submit">Continue</button>`;
 
 }
