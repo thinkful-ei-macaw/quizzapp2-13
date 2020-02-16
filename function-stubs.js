@@ -1,7 +1,6 @@
 'use strict';
 /* eslint-disable indent*/
 
-
 const store = {
   // 5 or more questions are required
   questions: [
@@ -61,100 +60,77 @@ const store = {
   quizStarted: false
 };
 
-  // Current question
-  // Question text
-  // User's answer choice(s)
-  // Score? Current Question Number? Quiz Started? Anything else?
-
-/**
- *
- * Your app should include a render() function, that regenerates
- * the view each time the store is updated. See your course
- * material, consult your instructor, and reference the slides
- * for more details.
- *
- * NO additional HTML elements should be added to the index.html file.
- *
- * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
- *
- */
-//**************** TEMPLATE GENERATORS generate html FOR EACH VIEW */
+//**************** TEMPLATE GENERATORS generate html FOR EACH VIEW ************/
 
 // Template generators
 function generateStartPage(){
-
-
   return `
     <h1 class = 'quiz-questions'>Math Quiz</h1>
     <form id="quiz-form" >
       <button id='start-quiz' type="submit">Play</button>
-    </form>`;
-
-    
+    </form>`; 
 }
 
 function generateChoices() {
-  //for loop that is going to return all of the choices in a input/label
+  //for loop that returns all of the current answer choices
   const answerChoices = Object.values(store.questions)[store.questionNumber].answers; 
 
-  return store.questions[store.questionNumber].answers.map((answer, idx) => {
+  return store.questions[store.questionNumber].answers.map((answer, idNumber) => {
       return `
-        <input type="radio" id="answer-choice-${idx}" name="answer-choice" value="${answerChoices[idx]}">
-        <label for="quiz-value">${answerChoices[idx]}</label>
+        <input type="radio" id="answer-choice-${idNumber}" name="answer-choice" value="${answerChoices[idNumber]}">
+        <label for="quiz-value">${answerChoices[idNumber]}</label>
       `;
-  }).join('')
+  }).join('');
 
   //using a map
 
   //returns labels and inputs
 }
 
-
+//generate HTML for the current question view
 function generateQuestionPage(){
-  
+  //grabs current question, question number
   const allQuestions = store.questions;
   const currentQuestionNumber = store.questionNumber;
   const currentQuestionData = allQuestions[currentQuestionNumber];
-  console.log(currentQuestionData);
   const currentQuestion = currentQuestionData.question;
-  
-  const answerArr = Object.values(allQuestions)[store.questionNumber];
-  const answerChoices = answerArr.answers;
-
+  //grabs HTML for the current answer choices
   const choicesHTML = generateChoices();
 
-  return `<h1 class = 'quiz-questions'>Question ${currentQuestionNumber +1} out of 5</h1>
-  <h3>Score: ${store.score}</h3>
-  <form id="question-form" action="">
-    <fieldset>
-      <legend>${currentQuestion}?</legend>
-      ${choicesHTML}
-    </fieldset>
-    <button id='submit-answer'>Submit Answer</button>
-  </form>`;
-
- 
+  return `
+    <h1 class = 'quiz-questions'>Question ${currentQuestionNumber +1} out of 5</h1>
+    <h3>Score: ${store.score} out of ${currentQuestionNumber}</h3>
+    <form id="question-form" action="">
+      <fieldset>
+        <legend>${currentQuestion}?</legend>
+        ${choicesHTML}
+      </fieldset>
+      <button id='submit-answer'>Submit Answer</button>
+    </form>`;
 }
 
   //
-//checks if answer is right or wrong
+//determines if users selected the correct answer, and conditionally selects next view to be generated
 function generateResults(){
-
+  //grabs answer user selected, current question number, and correct answer
   let selected = $('input[type=radio]:checked', '#question-form').val();
   let allQuestions = store.questions;
   let currentQuestionNumber = store.questionNumber;
   let correct = Object.values(allQuestions)[currentQuestionNumber].correctAnswer;
   
-  
-   if (correct === selected && currentQuestionNumber < store.questions.length) {
+  //determines  which view to generate based on if users selected the correct answer. if so, increments the score. determines
+  if (correct === selected && currentQuestionNumber < store.questions.length) {
     store.score++;
     return generateCorrectPage();
-  }else if (correct !== selected && currentQuestionNumber < store.questions.length) {
+  }
+  else if (correct !== selected && currentQuestionNumber < store.questions.length) {
     return generateWrongPage();
   }
 }
+
 //HTML and data for correct answer page when correct answer is selected
 function generateCorrectPage(){
+  //grabs correctAnswer for the question just answered as well as the answer the user selected
   let correctAnswer = Object.values(store.questions)[store.questionNumber].correctAnswer;
   let selected = $('input[type=radio]:checked', '#question-form').val();
   return `
@@ -166,7 +142,9 @@ function generateCorrectPage(){
     <button id='next-question' type="submit">Continue</button>`;
 }
 
+//generate HTML when user selects the wrong answer
 function generateWrongPage(){
+  //grabs correctAnswer for the question just answered as well as the answer the user selected
   let correctAnswer = Object.values(store.questions)[store.questionNumber].correctAnswer;
   let selected = $('input[type=radio]:checked', '#question-form').val();
   return `
@@ -174,13 +152,13 @@ function generateWrongPage(){
     <h2>Correct Answer: ${correctAnswer}</h2>
     <h2>Your Answer: ${selected}</h2>
     <button id='next-question' type="submit">Continue</button>`;
-
 }
 
+//generate HTML for when user completes the quizz
 function generateFinalPage(){
+  //grabs current score and number of questions
   return ` <h1 class = 'results'>Congrats you scored ${store.score} out of ${Object.values(store.questions).length} correct!</h1>
   <button id='try-again' type="submit">Continue</button>`;
-
 }
 
 /*************** RENDER FUNCTIONS ***********/
@@ -207,52 +185,45 @@ function renderFinalPage(){
 function handleStartQuiz(){
   $('body').on('click', '#start-quiz', (e) => {
     e.preventDefault();
-    // store.questionNumber++;
     store.quizStarted = true;
     renderQuestionPage();
-    // this is event delegation
 });
-
 }
 
-
-
+//handles what happens when the 'submit-answer' button is clicked 
 function handleAnswerSubmit(){
   $('body').on('click', '#submit-answer', (e) => {
     e.preventDefault();
     let selected = $('input[type=radio]:checked', '#question-form').val();
-    
+    //checks to make sure user has selected an answer. if not, alerts the user to do so.
     if(selected) {  
-    
-    renderResults();
-  } else {
+      renderResults();
+    } 
+    else {
       alert('Please select an answer');
     }
-  });
-
-  
+    });
 }
 
-
+//handles what happens when the 'next question' button is selected
 function handleNextQuestionSubmit(){
   $('body').on('click', '#next-question', (e) => {
     e.preventDefault();
     store.questionNumber++;
-
+    // determines which view to render next. If all questions have been answered, renders final results page, 
+    //otherwise, renders the next question.
     if (store.questionNumber === store.questions.length){
       return renderFinalPage();
-    }else (renderQuestionPage());
-});
-
-  
+    }
+    else (renderQuestionPage());
+});  
 }
 
 //handles what happens when the try again button is clicked
 function handleTryAgain(){
   $('body').on('click', '#try-again', (e) => {
     e.preventDefault();
-    // your code here
-    // this is event delegation
+    // resets values to original and renders the start quiz page
     store.score = 0;
     store.questionNumber = 0;
     store.quizStarted = false;
@@ -260,13 +231,8 @@ function handleTryAgain(){
 });
 }
 
-
-
 function handleQuizApp(){
   renderStartPage();
-  // renderQuestionPage();
-  // renderResults();
-  // renderFinalPage();
   handleStartQuiz();
   handleAnswerSubmit();
   handleNextQuestionSubmit();
