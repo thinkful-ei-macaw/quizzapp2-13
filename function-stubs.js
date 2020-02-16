@@ -65,27 +65,27 @@ const store = {
 // Template generators
 function generateStartPage(){
   return `
-    <h1 class = 'quiz-questions'>Math Quiz</h1>
+    <h1 class ="quiz-questions">Math Quiz</h1>
     <form id="quiz-form" >
-      <button id='start-quiz' type="submit">Play</button>
+      <button id="start-quiz" type="submit">Play</button>
     </form>`; 
 }
 
 function generateChoices() {
   //for loop that returns all of the current answer choices
   const answerChoices = Object.values(store.questions)[store.questionNumber].answers; 
+  
 
   return store.questions[store.questionNumber].answers.map((answer, idNumber) => {
-      return `
-        <input type="radio" id="answer-choice-${idNumber}" name="answer-choice" value="${answerChoices[idNumber]}">
-        <label for="quiz-value">${answerChoices[idNumber]}</label>
-      `;
+    const radioButtonID = `answer-choice-${idNumber}`;
+    return `
+      <input type="radio" id="${radioButtonID}" name="answer-choice" value="${answerChoices[idNumber]}">
+      <label for="${radioButtonID}">${answerChoices[idNumber]}</label>
+    `;
   }).join('');
-
-  //using a map
-
-  //returns labels and inputs
 }
+  //using a map
+  //returns labels and inputs for radio buttons
 
 //generate HTML for the current question view
 function generateQuestionPage(){
@@ -98,18 +98,18 @@ function generateQuestionPage(){
   const choicesHTML = generateChoices();
 
   return `
-    <h1 class = 'quiz-questions'>Question ${currentQuestionNumber +1} out of 5</h1>
+    <h1 class="quiz-questions">Question ${currentQuestionNumber + 1} out of ${store.questions.length}</h1>
     <h3>Score: ${store.score} out of ${currentQuestionNumber}</h3>
     <form id="question-form" action="">
       <fieldset>
         <legend>${currentQuestion}?</legend>
         ${choicesHTML}
       </fieldset>
-      <button id='submit-answer'>Submit Answer</button>
+      <button id="submit-answer">Submit Answer</button>
     </form>`;
 }
 
-  //
+
 //determines if users selected the correct answer, and conditionally selects next view to be generated
 function generateResults(){
   //grabs answer user selected, current question number, and correct answer
@@ -136,10 +136,10 @@ function generateCorrectPage(){
   return `
     <h1>Correct!</h1>
     <h2>Correct Answer: ${correctAnswer}</h2>
-    <h2>Your Answer: ${selected}</h2>
-    <h2>Your current score is: ${store.score} out of ${Object.values(store.questions).length}
+      <h2>Your Answer: ${selected}</h2>
+      <h2>Your current score is: ${store.score} out of ${Object.values(store.questions).length}
     </h2>
-    <button id='next-question' type="submit">Continue</button>`;
+    <button id="next-question" type="submit">Continue</button>`;
 }
 
 //generate HTML when user selects the wrong answer
@@ -151,14 +151,15 @@ function generateWrongPage(){
     <h1>Sorry, you are wrong!</h1>
     <h2>Correct Answer: ${correctAnswer}</h2>
     <h2>Your Answer: ${selected}</h2>
-    <button id='next-question' type="submit">Continue</button>`;
+    <button id="next-question" type="submit">Continue</button>`;
 }
 
 //generate HTML for when user completes the quizz
 function generateFinalPage(){
   //grabs current score and number of questions
-  return ` <h1 class = 'results'>Congrats you scored ${store.score} out of ${Object.values(store.questions).length} correct!</h1>
-  <button id='try-again' type="submit">Continue</button>`;
+  return `
+    <h1 class="results">Congrats! You scored ${store.score} out of ${Object.values(store.questions).length} correct!</h1>
+    <button id="try-again" type="submit">Continue</button>`;
 }
 
 /*************** RENDER FUNCTIONS ***********/
