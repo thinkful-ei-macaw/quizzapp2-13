@@ -7,13 +7,19 @@
   *
 */
 
-body {
-  text-align:center;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-weight: normal;
+  font-size: 16px;
+  color: black;
+  text-decoration: none;
+  text-align: center;
 }
 
-form {
-  text-align: center;
-  display:block;
+form input[type="radio"]:hover {
+  cursor: pointer;
 }
 
 form input[type="radio"],
@@ -29,4 +35,102 @@ fieldset {
   margin-right: 0;
   margin-bottom: 0;
   border: none;
+}
+
+.quiz-questions{
+  text-align: center;
+  font-size: 25px;
+  background-color: #3B4252;
+  color: white;
+  margin-top: 0;
+  padding: 60px;
+}
+
+#quiz-form button, #try-again{
+  border: 1px solid #C95F70;
+  padding: 10px 25px;
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 10px;
+}
+
+#question-form #submit-answer, #next-question {
+  border: 1px solid #C95F70;
+  padding: 10px 25px;
+  border-radius: 5px;
+  margin-top: 25px;
+}
+
+#quiz-form button:hover, #submit-answer:hover, #next-question:hover, #try-again:hover {
+  cursor: pointer;
+  background-color: #C95F70;
+  color: white;
+}
+
+
+.score-result {
+  font-size: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#question-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.block {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.block label {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 20px;
+}
+
+img {
+  height: 150px;
+  display: inline-block;
+  margin-top: 25px;
+}
+
+.correct-page {
+  text-align: center;
+  font-size: 25px;
+  background-color: lightblue;
+  color: black;
+  margin-top: 0;
+  padding: 60px;
+}
+
+.wrong-page {
+  text-align: center;
+  font-size: 25px;
+  background-color: lightpink;
+  color: #f2ffb2;
+  margin-top: 0;
+  padding: 60px;
+}
+
+@media only screen and (max-width: 320px) {
+  .quiz-questions {
+    display: block;
+    margin: 0 auto;
+    position: fixed;
+  }
+
+  h1.quiz-questions {
+    overflow:hidden;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  h1.quiz-questions {
+    min-inline-size: 210px;
+  }
 }

@@ -65,9 +65,9 @@ const store = {
 // Template generators
 function generateStartPage(){
   return `
-    <h1 class ="quiz-questions">Math Quiz</h1>
-    <form id="quiz-form" >
-      <button id="start-quiz" type="submit">Play</button>
+    <h1 class ="quiz-questions" aria-label="Title of the quiz" role="heading">Math Quiz</h1>
+    <form id="quiz-form" role="form">
+      <button id="start-quiz" type="submit" aria-label="Start Quiz">Start Quiz</button>
     </form>`; 
 }
 
@@ -79,9 +79,11 @@ function generateChoices() {
   return store.questions[store.questionNumber].answers.map((answer, idNumber) => {
     const radioButtonID = `answer-choice-${idNumber}`;
     return `
-      <input type="radio" id="${radioButtonID}" name="answer-choice" value="${answerChoices[idNumber]}">
+    <div class="block">
+      <input type="radio" id="${radioButtonID}" name="answer-choice" role="radio" aria-label="false" value="${answerChoices[idNumber]}" aria-labelledby="${radioButtonID}">
       <label for="${radioButtonID}">${answerChoices[idNumber]}</label>
-    `;
+    </div>
+      `;
   }).join('');
 }
   //using a map
@@ -98,15 +100,22 @@ function generateQuestionPage(){
   const choicesHTML = generateChoices();
 
   return `
-    <h1 class="quiz-questions">Question ${currentQuestionNumber + 1} out of ${store.questions.length}</h1>
-    <h3>Score: ${store.score} out of ${currentQuestionNumber}</h3>
-    <form id="question-form" action="">
-      <fieldset>
+    <h1 class="quiz-questions" role="heading">Question ${currentQuestionNumber + 1} out of ${store.questions.length}</h1>
+    <section role="region" aria-label="quiz" class="quiz-area">
+    <h3 class="score-result">Score: ${store.score} out of ${Object.values(store.questions).length}</h3>
+    <figure>
+    <img src="https://cdn.discordapp.com/emojis/615236185882886164.png?v=1" alt="thinking emoji">
+    <figcaption>Hmmm...</figcaption>
+    </figure>
+    <form id="question-form" action="#" aria-label="Display Question, Question Number, Choices, and Submit button" role="form">
+      <fieldset tabindex="0" role="radiogroup">
         <legend>${currentQuestion}?</legend>
         ${choicesHTML}
       </fieldset>
-      <button id="submit-answer">Submit Answer</button>
-    </form>`;
+      <button id="submit-answer" role="button">Submit Answer</button>
+    </form>
+    </section>
+    `;
 }
 
 
@@ -134,12 +143,17 @@ function generateCorrectPage(){
   let correctAnswer = Object.values(store.questions)[store.questionNumber].correctAnswer;
   let selected = $('input[type=radio]:checked', '#question-form').val();
   return `
-    <h1>Correct!</h1>
+    <h1 class="correct-page" role="heading">Correct!</h1>
     <h2>Correct Answer: ${correctAnswer}</h2>
       <h2>Your Answer: ${selected}</h2>
-      <h2>Your current score is: ${store.score} out of ${Object.values(store.questions).length}
+      <figure role="figure" aria-labelledby="caption">
+        <img src="https://cdn.discordapp.com/emojis/598306496383549440.gif?v=1" alt="animated yay">
+      <figcaption id="caption">You got it right!</figcaption>
+      </figure>
+      <h2 class="current-score">Your current score is: ${store.score} out of ${Object.values(store.questions).length}
     </h2>
-    <button id="next-question" type="submit">Continue</button>`;
+
+    <button id="next-question" type="submit" role="button">Continue</button>`;
 }
 
 //generate HTML when user selects the wrong answer
@@ -148,18 +162,44 @@ function generateWrongPage(){
   let correctAnswer = Object.values(store.questions)[store.questionNumber].correctAnswer;
   let selected = $('input[type=radio]:checked', '#question-form').val();
   return `
-    <h1>Sorry, you are wrong!</h1>
+    <h1 class="wrong-page" role="heading">Sorry, you are wrong!</h1>
     <h2>Correct Answer: ${correctAnswer}</h2>
     <h2>Your Answer: ${selected}</h2>
-    <button id="next-question" type="submit">Continue</button>`;
+    <figure role="figure" aria-labelledby="caption">
+      <img src="https://cdn.discordapp.com/emojis/413209254359597056.gif?v=1" alt="animated better luck next time">
+      <figcaption id="caption">Better luck next time</figcaption>
+    </figure>
+    <h2 class="current-score">Your current score is: ${store.score} out of ${Object.values(store.questions).length}
+    </h2>
+    <button id="next-question" type="submit" role="button">Continue</button>`;
+}
+
+function generateFinalImg() {
+  if (store.score >= store.questionNumber/2) {
+    return `
+    <figure>
+      <img src="https://media1.tenor.com/images/0a3589d141f2a18f78c62db3dc950112/tenor.gif?itemid=10780533" alt="you passed">
+      <figcaption>You passed</figcaption>
+    </figure>
+    `;
+  } else {
+    return `
+    <figure>
+      <img src="https://cdn.discordapp.com/emojis/673389779957710848.gif?v=1" alt="you did not pass">
+      <figcaption>You did not pass</figcaption>
+    </figure>
+    `;
+  }
 }
 
 //generate HTML for when user completes the quizz
 function generateFinalPage(){
   //grabs current score and number of questions
+  const picture = generateFinalImg();
   return `
-    <h1 class="results">Congrats! You scored ${store.score} out of ${Object.values(store.questions).length} correct!</h1>
-    <button id="try-again" type="submit">Continue</button>`;
+    <h1 class="results" role="heading">You scored ${store.score} out of ${Object.values(store.questions).length} correct!</h1>
+    ${picture}
+    <button id="try-again" type="submit" role="button">Continue</button>`;
 }
 
 /*************** RENDER FUNCTIONS ***********/
