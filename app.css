@@ -12,7 +12,7 @@
   margin: 0;
   box-sizing: border-box;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 23px;
   color: black;
   text-decoration: none;
   text-align: center;
@@ -76,8 +76,9 @@ fieldset {
 .score-result {
   font-size: 30px;
   display: flex;
-  justify-content: flex-end;
-}
+  justify-content: center;
+  margin-top: 10px;
+  margin-right: 20px;
 
 #question-form {
   display: flex;
@@ -122,28 +123,59 @@ img {
   padding: 60px;
 }
 
-@media only screen and (max-width: 320px) {
-  .quiz-questions {
-    display: block;
-    margin: 0 auto;
-    position: fixed;
-  }
-
-  h1.quiz-questions {
-    overflow:hidden;
-  }
+figure {
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
-@media only screen and (max-width: 768px) {
-  h1.quiz-questions {
-    min-inline-size: 210px;
+figcaption, #question-form legend{
+  font-size: 23px;
+}
+
+#question-form legend {
+  margin-bottom: 15px;
+}
+
+.quiz-area {
+  display: flex;
+  flex-direction: column;
+}
+
+
+@media screen and (max-width: 320px) {
+
+  .score-result {
+    justify-content: center;
   }
-<<<<<<< HEAD
+
+  figcaption, #question-form legend {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .quiz-questions, .correct-page, .wrong-page {
+    padding: 18px;
+  }
+
+
+}
+
+@media screen and (max-width: 768px) and (min-width: 321px) {
+  .score-result {
+    justify-content: center;
+  }
+  
+  figcaption, #question-form legend {
+    font-size: 25px;
+    margin-bottom: 15px;
+  }
+
+  .quiz-questions, .correct-page, .wrong-page {
+    padding: 30px;
+  }
 
   #submit-answer{
     margin-bottom: 50px;
   } 
 
-=======
->>>>>>> ba1646afe43e2b2bfdeefedfc79200353cf75276
 }
