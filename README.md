@@ -1,3 +1,9 @@
+Quiz App for 
+Sara Mills and 
+James Moua
+
+
+
 The following requirements cover what the app must do, from the user's perspective.
 
 The starting screen should have a button that users can click to start the quiz.
