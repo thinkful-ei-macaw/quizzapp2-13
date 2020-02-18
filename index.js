@@ -65,18 +65,20 @@ const store = {
 // Template generators
 function generateStartPage(){
   return `
-    <h1 class ="quiz-questions" aria-label="Title of the quiz" role="heading">Math Quiz</h1>
+    <h1 class ="quiz-questions" aria-label="Math Quiz" role="heading">Math Quiz</h1>
     <form id="quiz-form" role="form">
       <button id="start-quiz" type="submit" aria-label="Start Quiz">Start Quiz</button>
     </form>`; 
 }
 
 function generateChoices() {
-  //for loop that returns all of the current answer choices
+  //returns all of the current answer choices
   const answerChoices = Object.values(store.questions)[store.questionNumber].answers; 
   
-
+  //html which displays the current answer choices as radio box elements
   return store.questions[store.questionNumber].answers.map((answer, idNumber) => {
+    //using a map
+    //returns labels and inputs for radio buttons
     const radioButtonID = `answer-choice-${idNumber}`;
     return `
     <div class="block">
@@ -86,8 +88,7 @@ function generateChoices() {
       `;
   }).join('');
 }
-  //using a map
-  //returns labels and inputs for radio buttons
+
 
 //generate HTML for the current question view
 function generateQuestionPage(){
@@ -101,7 +102,7 @@ function generateQuestionPage(){
 
   return `
     <h1 class="quiz-questions" role="heading">Question ${currentQuestionNumber + 1} out of ${store.questions.length}</h1>
-    <section role="region" aria-label="quiz" class="quiz-area">
+    <section role="region" aria-label="Question" class="quiz-area">
     <h3 class="score-result">Score: ${store.score} out of ${Object.values(store.questions).length}</h3>
     <figure>
     <img src="https://cdn.discordapp.com/emojis/615236185882886164.png?v=1" alt="thinking emoji">
@@ -114,10 +115,8 @@ function generateQuestionPage(){
       </fieldset>
       <button id="submit-answer" role="button">Submit Answer</button>
     </form>
-    </section>
-    `;
+    </section>`;
 }
-
 
 //determines if users selected the correct answer, and conditionally selects next view to be generated
 function generateResults(){
@@ -146,13 +145,11 @@ function generateCorrectPage(){
     <h1 class="correct-page" role="heading">Correct!</h1>
     <h2>Correct Answer: ${correctAnswer}</h2>
       <h2>Your Answer: ${selected}</h2>
-      <figure role="figure" aria-labelledby="caption">
+      <figure role="figure" aria-labelledby="animated yay">
         <img src="https://cdn.discordapp.com/emojis/598306496383549440.gif?v=1" alt="animated yay">
       <figcaption id="caption">You got it right!</figcaption>
       </figure>
-      <h2 class="current-score">Your current score is: ${store.score} out of ${Object.values(store.questions).length}
-    </h2>
-
+      <h2 class="current-score">Your current score is: ${store.score} out of ${Object.values(store.questions).length}</h2>
     <button id="next-question" type="submit" role="button">Continue</button>`;
 }
 
@@ -165,12 +162,11 @@ function generateWrongPage(){
     <h1 class="wrong-page" role="heading">Sorry, you are wrong!</h1>
     <h2>Correct Answer: ${correctAnswer}</h2>
     <h2>Your Answer: ${selected}</h2>
-    <figure role="figure" aria-labelledby="caption">
+    <figure role="figure" aria-labelledby="animated better luck next time">
       <img src="https://cdn.discordapp.com/emojis/413209254359597056.gif?v=1" alt="animated better luck next time">
       <figcaption id="caption">Better luck next time</figcaption>
     </figure>
-    <h2 class="current-score">Your current score is: ${store.score} out of ${Object.values(store.questions).length}
-    </h2>
+    <h2 class="current-score">Your current score is: ${store.score} out of ${Object.values(store.questions).length}</h2>
     <button id="next-question" type="submit" role="button">Continue</button>`;
 }
 
