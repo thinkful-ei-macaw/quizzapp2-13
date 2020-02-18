@@ -79,6 +79,7 @@ fieldset {
   justify-content: center;
   margin-top: 10px;
   margin-right: 20px;
+}
 
 #question-form {
   display: flex;
